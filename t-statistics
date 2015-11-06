@@ -1,0 +1,23 @@
+function [tvalue,id] = tstatistics(file_data)
+label=file_data(:,end);
+data=file_data(:,1:end-1);
+[~,c]=size(data);
+t=zeros(1,c);
+for i=1:c
+    D=cell(2,1);
+    D{1}=data(label==1,i);
+    D{2}=data(label==2,i);
+    mu1=mean(D{1});
+    mu2=mean(D{2});
+    [n1,~]=size(D{1});
+    [n2,~]=size(D{2});
+    sigma1=std(D{1});
+    sigma2=std(D{2});
+    num=abs(mu1-mu2);
+    denom=sqrt((sigma1^2/n1)+(sigma2^2/n2));
+    %denom=sigma1+sigma2;
+    total=num/denom;
+    t(1,i)=total;
+end
+[tvalue,id]=sort(t,'descend');       
+end
